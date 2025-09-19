@@ -4,6 +4,68 @@ import './portfolio.css';
 const Portfolio: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const typingTexts = [
+    'Software Developer',
+    'Designer & dev',
+    'Frontend Developer',
+    'Problem Solver'
+  ];
+
+  // Typing animation effect
+  useEffect(() => {
+    const typeSpeed = 100;
+    const deleteSpeed = 50;
+    const pauseDuration = 2000;
+
+    const type = () => {
+      const currentText = typingTexts[currentTextIndex];
+      
+      if (!isDeleting) {
+        if (typedText.length < currentText.length) {
+          setTypedText(currentText.slice(0, typedText.length + 1));
+        } else {
+          setTimeout(() => setIsDeleting(true), pauseDuration);
+          return;
+        }
+      } else {
+        if (typedText.length > 0) {
+          setTypedText(currentText.slice(0, typedText.length - 1));
+        } else {
+          setIsDeleting(false);
+          setCurrentTextIndex((prev) => (prev + 1) % typingTexts.length);
+          return;
+        }
+      }
+    };
+
+    const timer = setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
+    return () => clearTimeout(timer);
+  }, [typedText, currentTextIndex, isDeleting, typingTexts]);
+
+  // Scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+    animatedElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,7 +166,10 @@ const Portfolio: React.FC = () => {
               <h1 className="hero-title">
                 Hello, I'm <span className="highlight">Moses Rono</span>
               </h1>
-              <h2 className="hero-subtitle">Full Stack Developer</h2>
+              <h2 className="hero-subtitle typing-container">
+                <span className="typing-text">{typedText}</span>
+                <span className="cursor">|</span>
+              </h2>
               <p className="hero-description">
                 Passionate about creating beautiful, functional, and user-centered digital experiences.
                 Specialized in modern web technologies and always eager to learn new skills.
@@ -133,8 +198,8 @@ const Portfolio: React.FC = () => {
       {/* About Section */}
       <section id="about" className="about">
         <div className="container">
-          <h2 className="section-title">About Me</h2>
-          <div className="about-content">
+          <h2 className="section-title animate-on-scroll">About Me</h2>
+          <div className="about-content animate-on-scroll">
             <div className="about-text">
               <p>
                 I'm a passionate full-stack developer with over 3 years of experience in creating 
@@ -169,10 +234,10 @@ const Portfolio: React.FC = () => {
       {/* Skills Section */}
       <section id="skills" className="skills">
         <div className="container">
-          <h2 className="section-title">Skills & Technologies</h2>
+          <h2 className="section-title animate-on-scroll">Skills & Technologies</h2>
           <div className="skills-grid">
             {skills.map((skill, index) => (
-              <div key={index} className="skill-item">
+              <div key={index} className="skill-item animate-on-scroll" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className="skill-info">
                   <span className="skill-name">{skill.name}</span>
                   <span className="skill-percentage">{skill.level}%</span>
@@ -192,10 +257,10 @@ const Portfolio: React.FC = () => {
       {/* Projects Section */}
       <section id="projects" className="projects">
         <div className="container">
-          <h2 className="section-title">Featured Projects</h2>
+          <h2 className="section-title animate-on-scroll">Featured Projects</h2>
           <div className="projects-grid">
             {projects.map((project, index) => (
-              <div key={index} className="project-card">
+              <div key={index} className="project-card animate-on-scroll" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className="project-image">
                   <img src={project.image} alt={project.title} />
                   <div className="project-overlay">
@@ -220,9 +285,9 @@ const Portfolio: React.FC = () => {
       {/* Contact Section */}
       <section id="contact" className="contact">
         <div className="container">
-          <h2 className="section-title">Get In Touch</h2>
+          <h2 className="section-title animate-on-scroll">Get In Touch</h2>
           <div className="contact-content">
-            <div className="contact-info">
+            <div className="contact-info animate-on-scroll">
               <h3>Let's work together</h3>
               <p>
                 I'm always interested in hearing about new opportunities and projects. 
@@ -245,7 +310,7 @@ const Portfolio: React.FC = () => {
                 <a href="#" className="social-link">Twitter</a>
               </div>
             </div>
-            <div className="contact-form">
+            <div className="contact-form animate-on-scroll">
               <form>
                 <div className="form-group">
                   <input type="text" placeholder="Your Name" required />
