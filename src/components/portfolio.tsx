@@ -15,7 +15,6 @@ const Portfolio: React.FC = () => {
     'Problem Solver'
   ];
 
-  // Typing animation effect
   useEffect(() => {
     const typeSpeed = 100;
     const deleteSpeed = 50;
@@ -46,7 +45,6 @@ const Portfolio: React.FC = () => {
     return () => clearTimeout(timer);
   }, [typedText, currentTextIndex, isDeleting, typingTexts]);
 
-  // Scroll animations
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
