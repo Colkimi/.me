@@ -10,8 +10,8 @@ const Portfolio: React.FC = () => {
 
   const typingTexts = [
     'Software Developer',
-    'Designer & dev',
-    'Frontend Developer',
+    'Cybersecurity Enthusiast',
+    'Fullstack Developer',
     'Problem Solver'
   ];
 
@@ -96,27 +96,42 @@ const Portfolio: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  // initialize theme from localStorage or system preference
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'dark') {
+        document.documentElement.classList.add('dark');
+        return;
+      }
+    } catch (e) {}
+
+    // fallback to system preference
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) document.documentElement.classList.add('dark');
+  }, []);
+
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with modern UI/UX, payment integration, and admin dashboard.",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-      image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&h=300&fit=crop",
-      link: "#"
+      title: "Ride sharing Platform",
+      description: "A full-stack ride sharing solution with modern UI/UX, payment integration, and admin dashboard.",
+      technologies: ["React", "Node.js", "NestJs", "Typescript"],
+      image: "/rideeasy.jpeg",
+      link: "https://github.com/Colkimi/Ride-share"
     },
     {
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates and team collaboration features.",
-      technologies: ["React", "Firebase", "TypeScript", "Material-UI"],
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500&h=300&fit=crop",
-      link: "#"
+      title: "System penetration tool",
+      description: "A collaborative pentesting tool that does Encryption & Decryption, hash cracking and network scanning.",
+      technologies: ["Python", "Bash", "Shell Script"],
+      image: "/defendx.jpeg",
+      link: "https://github.com/Colkimi/Defend_X"
     },
     {
-      title: "Weather Dashboard",
-      description: "A responsive weather application with location-based forecasts and interactive maps.",
-      technologies: ["Vue.js", "API Integration", "Chart.js", "CSS3"],
-      image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&h=300&fit=crop",
-      link: "#"
+      title: "CTFORGE",
+      description: "A powerful command-line tool for generating Capture The Flag (CTF) challenges across multiple categories.",
+      technologies: ["Python", "Bash", "Shell"],
+      image: "/ctforge.jpeg",
+      link: "https://github.com/Colkimi/CTFORGE"
     }
   ];
 
@@ -124,11 +139,12 @@ const Portfolio: React.FC = () => {
     { name: "React", level: 90 },
     { name: "TypeScript", level: 85 },
     { name: "Node.js", level: 80 },
-    { name: "Python", level: 75 },
+    { name: "Python", level: 95 },
     { name: "CSS/SCSS", level: 90 },
-    { name: "MongoDB", level: 70 },
     { name: "Git", level: 85 },
-    { name: "AWS", level: 65 }
+    { name: "Bash", level: 95 },
+    {name: "nestJs", level: 80},
+    {name: "Tanstack", level: 75}
   ];
 
   return (
@@ -137,7 +153,7 @@ const Portfolio: React.FC = () => {
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">
-            <h2>Portfolio</h2>
+            <h2>Colkimi</h2>
           </div>
           <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
             {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
@@ -150,10 +166,28 @@ const Portfolio: React.FC = () => {
               </button>
             ))}
           </div>
-          <div className="nav-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <span className="bar"></span>
-            <span className="bar"></span>
-            <span className="bar"></span>
+          {/* Theme toggle + mobile menu toggle */}
+          <div className="nav-actions">
+            <button
+              className="theme-toggle"
+              aria-label="Toggle theme"
+              onClick={() => {
+                // toggle theme and persist
+                const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const next = current === 'dark' ? 'light' : 'dark';
+                if (next === 'dark') document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                try { localStorage.setItem('theme', next); } catch (e) {}
+              }}
+            >
+              <span className="theme-icon">🌓</span>
+            </button>
+
+            <div className="nav-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </div>
           </div>
         </div>
       </nav>
@@ -164,7 +198,7 @@ const Portfolio: React.FC = () => {
           <div className="hero-content">
             <div className="hero-text">
               <h1 className="hero-title">
-                Hello, I'm <span className="highlight">Moses Rono</span>
+                Hello, I'm <span className="highlight">Collins Mibey</span>
               </h1>
               <h2 className="hero-subtitle typing-container">
                 <span className="typing-text">{typedText}</span>
@@ -186,7 +220,7 @@ const Portfolio: React.FC = () => {
             <div className="hero-image">
               <div className="image-container">
                 <img 
-                  src="/rohn.jpg" 
+                  src="/colkimi.jpeg" 
                   alt="Profile" 
                 />
               </div>
@@ -264,7 +298,14 @@ const Portfolio: React.FC = () => {
                 <div className="project-image">
                   <img src={project.image} alt={project.title} />
                   <div className="project-overlay">
-                    <button className="btn-primary">View Project</button>
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn-primary"
+                    >
+                      View Project
+                    </a>
                   </div>
                 </div>
                 <div className="project-content">
@@ -295,19 +336,18 @@ const Portfolio: React.FC = () => {
               </p>
               <div className="contact-details">
                 <div className="contact-item">
-                  <strong>Email:</strong> mosesrono@gmail.com
+                  <strong>Email:</strong> colkimib@gmail.com
                 </div>
                 <div className="contact-item">
-                  <strong>Phone:</strong> +254 (7) 16 761 292
+                  <strong>Phone:</strong> +254 (7) 89 471 918
                 </div>
                 <div className="contact-item">
                   <strong>Location:</strong> Kutus, Kirinyaga
                 </div>
               </div>
               <div className="social-links">
-                <a href="https://github.com/Rohn500" className="social-link">GitHub</a>
-                <a href="#" className="social-link">LinkedIn</a>
-                <a href="#" className="social-link">Twitter</a>
+                <a href="https://github.com/Colkimi" className="social-link">GitHub</a>
+                <a href="https://linkedin.com/in/colkimi" className="social-link">LinkedIn</a>
               </div>
             </div>
             <div className="contact-form animate-on-scroll">
@@ -334,7 +374,7 @@ const Portfolio: React.FC = () => {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 Moses Rono. All rights reserved.</p>
+          <p>&copy; 2025 Collins Mibey. All rights reserved.</p>
         </div>
       </footer>
     </div>
