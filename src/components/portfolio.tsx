@@ -213,6 +213,15 @@ const Portfolio: React.FC = () => {
                 <button className="btn-secondary" onClick={() => scrollToSection('contact')}>
                   Get In Touch
                 </button>
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-resume"
+                  aria-label="Open resume in a new tab"
+                >
+                  View Resume
+                </a>
               </div>
             </div>
             <div className="hero-image">
