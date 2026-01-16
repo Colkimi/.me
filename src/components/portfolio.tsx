@@ -381,7 +381,7 @@ const Portfolio: React.FC = () => {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 Collins Mibey. All rights reserved.</p>
+          <p>&copy; 2026 Collins Mibey. All rights reserved.</p>
         </div>
       </footer>
     </div>
